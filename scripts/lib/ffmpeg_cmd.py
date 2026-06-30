@@ -3,6 +3,18 @@ from __future__ import annotations
 import os
 
 
+def escape_subtitles_path(path):
+    """Escape a path for use inside the libavfilter `subtitles=` argument.
+
+    Inside a filtergraph `:` separates options, `,` separates filters, and
+    `\\'[]` are special. Campaign paths can contain spaces or `:` (e.g. an app
+    named "Lince: Data"), which would otherwise break the filter at render time.
+    """
+    for ch in ("\\", ":", "'", ",", "[", "]"):
+        path = path.replace(ch, "\\" + ch)
+    return path
+
+
 def build_frames_cmd(video, out_dir, threshold=0.4):
     pattern = os.path.join(out_dir, "frame_%03d.png")
     vf = f"select='gt(scene,{threshold})',showinfo"
@@ -13,7 +25,7 @@ def build_master_cmd(concat_list, music, ass_path, out_path, fps=30):
     cmd = ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", concat_list]
     if music:
         cmd += ["-i", music]
-    cmd += ["-vf", f"subtitles={ass_path}", "-r", str(fps),
+    cmd += ["-vf", f"subtitles={escape_subtitles_path(ass_path)}", "-r", str(fps),
             "-c:v", "libx264", "-pix_fmt", "yuv420p"]
     if music:
         cmd += ["-c:a", "aac", "-b:a", "192k",

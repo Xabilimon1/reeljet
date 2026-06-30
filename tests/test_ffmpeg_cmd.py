@@ -1,6 +1,18 @@
 from scripts.lib.ffmpeg_cmd import (
     build_frames_cmd, build_master_cmd, build_reframe_cmd,
+    escape_subtitles_path,
 )
+
+
+def test_escape_subtitles_path_escapes_colon_and_specials():
+    assert escape_subtitles_path("/a/x:y/caps.ass") == "/a/x\\:y/caps.ass"
+    assert escape_subtitles_path("c,[d]") == "c\\,\\[d\\]"
+
+
+def test_master_cmd_escapes_subtitles_path():
+    cmd = build_master_cmd("list.txt", None, "/a b/x:y/caps.ass", "m.mp4", fps=30)
+    j = " ".join(cmd)
+    assert "subtitles=/a b/x\\:y/caps.ass" in j
 
 
 def test_frames_cmd_has_scene_select():

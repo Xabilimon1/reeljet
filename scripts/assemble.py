@@ -22,6 +22,12 @@ def _clip_path(campaign_dir, shot):
     return rel if os.path.isabs(rel) else os.path.join(campaign_dir, rel)
 
 
+def _concat_line(path):
+    # ffmpeg concat demuxer: single-quote the path; escape any literal quote
+    # using the demuxer's '\'' idiom so paths containing ' don't break parsing.
+    return "file '%s'\n" % path.replace("'", "'\\''")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--campaign-dir", required=True)
@@ -45,7 +51,7 @@ def main():
     concat = os.path.join(cdir, "_concat.txt")
     with open(concat, "w") as f:
         for sh in plan["shots"]:
-            f.write(f"file '{_clip_path(cdir, sh)}'\n")
+            f.write(_concat_line(_clip_path(cdir, sh)))
 
     music = plan.get("music", {}).get("track")
     fps = plan.get("fps", 30)
