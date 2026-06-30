@@ -8,7 +8,7 @@ copied real clips), runs ffmpeg for the master, then reframes to vertical.
 import argparse, json, os, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from scripts.lib.plan_schema import validate_plan
-from scripts.lib.captions import build_ass
+from scripts.lib.caption_render import timed_captions, render_caption_png
 from scripts.lib.ffmpeg_cmd import build_master_cmd, build_reframe_cmd
 
 RES = {"16:9": (1920, 1080), "9:16": (1080, 1920)}
@@ -44,9 +44,13 @@ def main():
         palette = json.load(open(pf))
 
     w, h = RES[plan["aspect_master"]]
-    ass = build_ass(plan["shots"], palette, w, h)
-    ass_path = os.path.join(cdir, "captions.ass")
-    open(ass_path, "w").write(ass)
+    capdir = os.path.join(cdir, "captions")
+    os.makedirs(capdir, exist_ok=True)
+    overlays = []
+    for i, (text, start, end) in enumerate(timed_captions(plan["shots"])):
+        png = os.path.join(capdir, f"cap_{i:02d}.png")
+        render_caption_png(text, w, h, palette, png)
+        overlays.append({"path": png, "start": start, "end": end})
 
     concat = os.path.join(cdir, "_concat.txt")
     with open(concat, "w") as f:
@@ -56,7 +60,7 @@ def main():
     music = plan.get("music", {}).get("track")
     fps = plan.get("fps", 30)
     master = os.path.join(cdir, "master_16x9.mp4")
-    subprocess.run(build_master_cmd(concat, music, ass_path, master, fps),
+    subprocess.run(build_master_cmd(concat, music, overlays, master, w, h, fps),
                    check=True)
 
     vert = os.path.join(cdir, "master_9x16.mp4")

@@ -1,6 +1,7 @@
 # reeljet setup
 
-1. `brew install ffmpeg`  (required: assembly + frame extraction)
+1. `brew install ffmpeg`  (required: assembly + frame extraction). libass is
+   NOT needed — captions are drawn with Pillow and composited via `overlay`.
 2. Python deps (anaconda usually has them): `python3 -m pip install pillow pytest`
 3. Create the music library and add royalty-free tracks:
    `mkdir -p ~/x-brain/Resources/MusicLibrary`

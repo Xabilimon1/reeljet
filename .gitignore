@@ -10,3 +10,6 @@ __pycache__/
 scratch/
 *.mp4
 *.mov
+
+# vault hub note (Obsidian-only, not part of the public skill)
+reeljet.md
