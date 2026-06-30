@@ -11,7 +11,7 @@ adds music; ffmpeg assembles the final cut.
 
 ## Prerequisites
 - ffmpeg installed (`brew install ffmpeg`).
-- `~/x-brain/Resources/MusicLibrary/` populated (see references/music-selection.md).
+- `~/reeljet/music-library/` populated (see references/music-selection.md).
 - Higgsfield MCP connected with credits.
 
 ## Workflow (5 phases)
@@ -20,7 +20,7 @@ adds music; ffmpeg assembles the final cut.
 1. Get the asset folder (recordings, screenshots, logo) + a short brief
    (what it does, audience, USP, tone, CTA).
 2. Create the campaign dir:
-   `~/x-brain/Projects/<App>/ads/<YYYY-MM-DD>-<campaign>/`.
+   `~/reeljet/ads/<App>/<YYYY-MM-DD>-<campaign>/`.
 3. `python3 scripts/extract_palette.py --assets <assets> --out <camp>/palette.json`
 4. `python3 scripts/extract_frames.py --video <recording> --out <camp>/frames`
 

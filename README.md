@@ -54,7 +54,7 @@ ln -snf "$PWD/reeljet" ~/.claude/skills/reeljet
 # 2. Prerequisites
 brew install ffmpeg                 # libass NOT required (captions use Pillow + overlay)
 python3 -m pip install pillow       # pytest too, if you want to run the tests
-mkdir -p ~/x-brain/Resources/MusicLibrary   # drop royalty-free tracks named mood_120bpm_genre.mp3
+mkdir -p ~/reeljet/music-library   # drop royalty-free tracks named mood_120bpm_genre.mp3
                                             # (configurable — pass --library <path> to pick_music.py)
 ```
 

@@ -4,7 +4,9 @@ import argparse, os, sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from scripts.lib.musiclib import scan_library, pick_music
 
-DEFAULT_LIB = os.path.expanduser("~/x-brain/Resources/MusicLibrary")
+# Override with REELJET_MUSIC_DIR to point at any music folder you keep.
+DEFAULT_LIB = os.environ.get("REELJET_MUSIC_DIR") or os.path.expanduser(
+    "~/reeljet/music-library")
 
 
 def main():

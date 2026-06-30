@@ -4,7 +4,7 @@
 - **Status:** Approved design → ready for implementation plan
 - **Trigger:** `/reeljet`
 - **Type:** Claude Code orchestrator skill
-- **Repo:** `~/x-brain/Projects/reeljet/` (standalone git repo, ignored by the x-brain vault). Installed by symlink into `~/.claude/skills/reeljet`.
+- **Repo:** `~/code/reeljet/` (standalone git repo, ignored by the workspace vault). Installed by symlink into `~/.claude/skills/reeljet`.
 
 ---
 
@@ -30,9 +30,9 @@ The differentiating value is **Phase 1 creative direction** (hook, arc, storyboa
 | Final montage | **Auto with ffmpeg** — deterministic timeline, reproducible, no external editor |
 | Formats | **Master 16:9 + smart reframe to 9:16** (~1× credits). 16:9 = YouTube/landing hero; 9:16 = Reels/TikTok/Shorts |
 | Narrative layer | **On-screen kinetic captions** (no voiceover). Plus: extract **color palette** from assets → caption/accent colors; pick **most fitting music** |
-| I/O | **Centralized in x-brain**: `~/x-brain/Projects/<App>/ads/<YYYY-MM-DD>-<campaign>/` |
+| I/O | **Centralized in workspace**: `~/reeljet/ads/<App>/<YYYY-MM-DD>-<campaign>/` |
 | Architecture | **Orchestrator + bundled deterministic scripts** + Higgsfield MCP for generation |
-| Music source | **Local royalty-free library** at `~/x-brain/Resources/MusicLibrary/`; skill picks best match by mood/BPM/genre |
+| Music source | **Local royalty-free library** at `~/reeljet/music-library/`; skill picks best match by mood/BPM/genre |
 | Aspect strategy | Generate b-roll once at 16:9; derive 9:16 by smart reframe (UI floating over generated bg, zoom-to-active-region, occasional Higgsfield outpainting) |
 
 ---
@@ -87,7 +87,7 @@ Confirmed at capability level (exact tool names/params pinned at implementation;
 ## 5. Skill structure
 
 ```
-reeljet/                          # repo root (~/x-brain/Projects/reeljet)
+reeljet/                          # repo root (~/code/reeljet)
   SKILL.md                        # orchestrates the 5 phases + approval gate
   references/
     creative-direction.md         # hook frameworks, pacing, arc, caption style
@@ -102,9 +102,9 @@ reeljet/                          # repo root (~/x-brain/Projects/reeljet)
   docs/specs/                     # this spec
 ```
 
-### Output layout (per campaign, in x-brain)
+### Output layout (per campaign, in workspace)
 ```
-~/x-brain/Projects/<App>/ads/<YYYY-MM-DD>-<campaign>/
+~/reeljet/ads/<App>/<YYYY-MM-DD>-<campaign>/
   brief.md  plan.md  plan.json  palette.json
   frames/  generated/  captions.ass
   master_16x9.mp4  master_9x16.mp4  build.log
@@ -116,10 +116,10 @@ reeljet/                          # repo root (~/x-brain/Projects/reeljet)
 
 - `brew install ffmpeg` (**required** — assembly + frame extraction). ffmpeg is **not** currently installed.
 - Python: anaconda `python3` + **Pillow** (palette). Keep scripts dependency-light (stdlib + Pillow). `librosa` BPM detection is **optional**; default to tag/filename-based BPM.
-- Create `~/x-brain/Resources/MusicLibrary/` and populate with royalty-free tracks. Optional sidecar tags (mood/BPM/genre); otherwise `pick_music.py` infers from name/folder. (User is responsible for per-platform music licensing.)
+- Create `~/reeljet/music-library/` and populate with royalty-free tracks. Optional sidecar tags (mood/BPM/genre); otherwise `pick_music.py` infers from name/folder. (User is responsible for per-platform music licensing.)
 - Higgsfield account with credits (generation costs).
-- Symlink `~/x-brain/Projects/reeljet` → `~/.claude/skills/reeljet`; add a pointer line in `~/.claude/CLAUDE.md` (mirrors the graphify pattern).
-- The x-brain vault `.gitignore` ignores `Projects/reeljet/` so the nested repo does not pollute the vault.
+- Symlink `~/code/reeljet` → `~/.claude/skills/reeljet`; add a pointer line in `~/.claude/CLAUDE.md` (mirrors the graphify pattern).
+- The workspace vault `.gitignore` ignores `Projects/reeljet/` so the nested repo does not pollute the vault.
 
 ---
 

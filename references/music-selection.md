@@ -1,6 +1,7 @@
 # Music selection
 
-Source: local royalty-free library at `~/x-brain/Resources/MusicLibrary/`.
+Source: local royalty-free library at `~/reeljet/music-library/` (override the
+default by setting `REELJET_MUSIC_DIR`, or pass `--library <path>`).
 Higgsfield does not produce a dedicated track; embedded clip audio is muted
 or mixed low.
 

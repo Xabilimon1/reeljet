@@ -6,7 +6,7 @@ __pycache__/
 # OS
 .DS_Store
 
-# Local scratch / generated media (campaign outputs live under x-brain Projects/<App>/ads)
+# Local scratch / generated media (campaign outputs live under ~/reeljet/ads/<App>)
 scratch/
 *.mp4
 *.mov
