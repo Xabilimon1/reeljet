@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# OS
+.DS_Store
+
+# Local scratch / generated media (campaign outputs live under x-brain Projects/<App>/ads)
+scratch/
+*.mp4
+*.mov
